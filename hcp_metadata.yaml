@@ -1,0 +1,68 @@
+panss-total:
+  file: panss
+  field: panss_total
+PANSS-P:
+  file: panss
+  field: panss_positive
+PANSS-N:
+  file: panss
+  field: panss_negative
+PANSS-G:
+  file: panss
+  field: panss_general
+education:
+  file: socdem
+  field: educat
+  invalid:
+    - 999
+antipsychotic_dur:
+  file: mhx
+  field: apd_exp_months
+total_defined_daily_dose:
+  file: mhx
+  field: apd_chlor_equiv
+SES:
+  file: ses
+  field: sestot
+alcohol_current:
+  file: scid_v
+  field: sciddx_007
+  map:
+    1: Absent
+    2: Abuse
+    3: Dependent
+alcohol_lifetime:
+  file: scid_v
+  field: sciddx_006
+  map:
+    1: Absent
+    2: Abuse
+    3: Dependent
+smoke:
+  file: olfact
+  field: ftnd_7
+  map:
+    0: "No"
+    1: "Yes"
+    2: Used to
+smoke_time:
+  file: olfact
+  field: cigaretteuse_time_yrs
+smoke_amount:
+  file: olfact
+  field: cigs_cigs
+cannabis_exposure:
+  file: scid_v
+  field: q071_can_life
+  valid:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+handedness:
+  file: psychosocial
+  field: handedness
+  valid:
+    - L
+    - R

@@ -1,0 +1,73 @@
+"""Prepdwi_recon
+
+"""
+configfile: 'config/topsy-base.yml'
+
+
+include: 'rules/setup.smk'
+# include: 'rules/reference_images.smk'
+# include: 'rules/spectral_clustering/spectral_clustering.smk'
+# include: 'rules/tract_profiles.smk'
+# include: 'rules/parcellation.smk'
+# include: 'rules/connectome.smk'
+include: 'rules/graph_theory.smk'
+# include: 'rules/spectral_clustering/qc.smk'
+# include: 'rules/tests.smk'
+# include: "rules/qc.smk"
+
+localrules: qc, aggregate_profiles, merge_nodal_properties
+
+# rule all:
+#     input:
+#         expand(
+#             rules.apply_wm_mask_to_dmri.output,
+#             **inputs.input_lists['preproc_dwi'],
+#         )
+
+rule graph_theory:
+    input: rules.merge_nodal_properties.output,
+
+# rule rich_club:
+#     input:
+#         expand(
+#             rules.rich_club_coefficient.output,
+#             rec=config["tractography"]["algorithm"],
+#             atlas=config["segmentation"],
+#             weight=config["connectome_weight"],
+#             **inputs.input_lists['preproc_dwi'],
+#         )
+
+
+if "fa_registered" in inputs:
+    rule tbss:
+        input:
+            expand(
+                rules.skeleton_glm.output,
+                **(
+                    {
+                        "model": config['design_matrix']['models']
+                    }
+                    if 'models' in config['design_matrix'] else {}
+                ),
+            )
+
+# rule reformated:
+#     input:
+#         expand(
+#             rules.reformat_clusters.output,
+#             **inputs.input_lists['preproc_dwi']
+#         )
+
+
+# rule qc:
+#     input:
+#         expand(
+#             bids(root=qc,
+#                 datatype='dwi',
+#                 suffix='{suffixes}',
+#                 **wildcards),
+#             **inputs['input_lists']['preproc_dwi'],
+#             suffixes=["viewTractography", "viewOdf", "viewInterface"]),
+#         expand(
+#             rules.create_tractography_png.output,
+#             **inputs['input_lists']['preproc_dwi'])

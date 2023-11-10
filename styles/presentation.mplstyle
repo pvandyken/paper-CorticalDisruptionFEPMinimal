@@ -1,0 +1,27 @@
+
+ytick.labelsize : 12
+ytick.color : "#101010"
+xtick.labelsize : 12
+xtick.color : "#101010"
+
+font.family : "Roboto"
+
+figure.titlesize : 20
+figure.titleweight : "bold"
+figure.edgecolor : "black"
+figure.dpi : 300
+
+axes.edgecolor : "#a0a0a0"
+axes.titlesize : 20
+axes.titlecolor : "#101010"
+axes.facecolor : "#f0f0f0"
+axes.labelsize : 16
+
+text.color : "#101010"
+axes.spines.top : False
+axes.spines.left : False
+axes.spines.bottom : False
+axes.spines.right : False
+
+legend.title_fontsize : 16
+legend.fontsize : 16
