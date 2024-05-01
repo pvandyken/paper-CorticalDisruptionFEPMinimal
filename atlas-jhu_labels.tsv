@@ -1,0 +1,50 @@
+index,name,x,y,z,label
+0,Unclassified,0,0,0,
+1,Middle cerebellar peduncle,69,83,36,
+2,Pontine crossing tract (a part of MCP),89,97,40,
+3,Genu of corpus callosum,93,152,77,GCC
+4,Body of corpus callosum,95,100,97,BCC
+5,Splenium of corpus callosum,85,89,88,SCC
+6,Fornix (column and body of fornix),89,116,88,FX
+7,Corticospinal tract R,82,103,43,CST
+8,Corticospinal tract L,97,103,43,CST
+9,Medial lemniscus R,84,89,40,ML
+10,Medial lemniscus L,95,89,40,ML
+11,Inferior cerebellar peduncle R,83,83,20,ICP
+12,Inferior cerebellar peduncle L,96,83,20,ICP
+13,Superior cerebellar peduncle R,84,93,53,SCP
+14,Superior cerebellar peduncle L,95,93,53,SCP
+15,Cerebral peduncle R,75,107,60,CP
+16,Cerebral peduncle L,104,107,60,CP
+17,Anterior limb of internal capsule R,75,129,79,ALIC
+18,Anterior limb of internal capsule L,104,129,79,ALIC
+19,Posterior limb of internal capsule R,66,108,85,PLIC
+20,Posterior limb of internal capsule L,113,108,85,PLIC
+21,Retrolenticular part of internal capsule R,61,101,78,RLIC
+22,Retrolenticular part of internal capsule L,117,101,78,RLIC
+23,Anterior corona radiata R,69,163,73,ACR
+24,Anterior corona radiata L,110,163,73,ACR
+25,Superior corona radiata R,63,109,96,SCR
+26,Superior corona radiata L,116,109,96,SCR
+27,Posterior corona radiata R,64,99,99,PCR
+28,Posterior corona radiata L,115,99,99,PCR
+29,Posterior thalamic radiation (include optic radiation) R,57,64,73,PTR
+30,Posterior thalamic radiation (include optic radiation) L,122,64,73,PTR
+31,Sagittal stratum (include inferior longitidinal fasciculus and inferior fronto-occipital fasciculus) R,48,97,60,SS
+32,Sagittal stratum (include inferior longitidinal fasciculus and inferior fronto-occipital fasciculus) L,131,97,60,SS
+33,External capsule R,58,131,64,EC
+34,External capsule L,121,131,64,EC
+35,Cingulum (cingulate gyrus) R,83,132,105,CGC
+36,Cingulum (cingulate gyrus) L,97,110,108,CGC
+37,Cingulum (hippocampus) R,66,101,53,CGH
+38,Cingulum (hippocampus) L,112,99,54,CGH
+39,Fornix (cres) / Stria terminalis (can not be resolved with current resolution) R,62,100,66,FXST
+40,Fornix (cres) / Stria terminalis (can not be resolved with current resolution) L,117,100,66,FXST
+41,Superior longitudinal fasciculus R,53,103,102,SLF
+42,Superior longitudinal fasciculus L,126,103,102,SLF
+43,Superior fronto-occipital fasciculus (could be a part of anterior internal capsule) R,69,121,93,SFO
+44,Superior fronto-occipital fasciculus (could be a part of anterior internal capsule) L,110,121,93,SFO
+45,Inferior fronto-occipital fasciculus R,55,127,54,IFO
+46,Inferior fronto-occipital fasciculus L,123,125,58,IFO
+47,Uncinate fasciculus R,60,78,86,UNC
+48,Uncinate fasciculus L,117,76,87,UNC

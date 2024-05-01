@@ -41,12 +41,12 @@ DUP:
 DUI:
   file: history
   field: dui_weeks
-antipsychotic_dur:
+ddd_lifetime:
   file: rx
-  field: antipsychotic_duration
-total_defined_daily_dose:
+  field: ddd_lifetime
+ddd_dayofscan:
   file: rx
-  field: TotalDefinedDailyDose@Scan
+  field: ddd_dayofscan
 SOFAS:
   file: sessions
   field: SOFAS
@@ -65,3 +65,6 @@ PANSS8-G:
 time:
   file: sessions
   field: days_since_first_scan
+ddx:
+  file: history
+  field: ConsensusDx

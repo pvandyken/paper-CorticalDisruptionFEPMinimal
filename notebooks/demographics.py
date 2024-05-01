@@ -86,9 +86,9 @@ class DemographicTable:
     @staticmethod
     def _format_pvalue(pvalue: float, alpha: float = 0.05):
         if pvalue < 0.001:
-            formatted = f"_p_ < 0.001"
+            formatted = "_p_ < .001"
         else:
-            formatted = f"_p_ = {pvalue:.2g}"
+            formatted = "_p_ = " + f"{pvalue:.2g}".lstrip("0")[:4]
         if pvalue <= alpha:
             return f"**{formatted}**"
         return formatted
@@ -123,18 +123,26 @@ class DemographicTable:
         template: str | None = None,
         name: str | None = None,
         autoformatter: Callable[[str], str] = lambda i: i,
+        skip_stats: bool = False,
+        skip_groups: list[str] | None = None,
     ):
+        skipped = set(skip_groups) if skip_groups is not None else set()
         summaries = {
             label: SummaryNominal(self.grouped.get_group(label)[field], template)
-            for label in self.labels
+            for label in set(self.labels) - skipped
         }
         name = self._format_field(
             name or autoformatter(field),
             itx.first(summaries.values()).format_template(),
         )
         for label in self.labels:
-            self.table[label][name] = summaries[label].format()
+            self.table[label][name] = (
+                summaries[label].format() if label not in skipped else "N/A"
+            )
         for vars, label in self.interaction_labels.items():
+            if skip_stats or set(vars) & skipped:
+                self.interactions[label][name] = ""
+                continue
             contigency = pd.DataFrame({var: summaries[var].table for var in vars})
             statistic, pvalue, dof, _ = scs.chi2_contingency(contigency)
             self.interactions[label][name] = ", ".join(

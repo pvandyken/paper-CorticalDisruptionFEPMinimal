@@ -40,6 +40,6 @@ rule merge_nodal_properties:
     threads: 1
     run:
         pd.concat(
-            pd.read_csv(i, sep="\t") for i in input
+            pd.read_csv(i, sep="\t", dtype=str) for i in input
         ).reset_index(drop=True).to_csv(str(output), sep="\t", index=False)
 

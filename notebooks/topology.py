@@ -113,6 +113,7 @@ def plot_intragroup_difference(
         join="inner",
     )
     df = data[["degr", "group"]].to_dataframe()
+    print(df)
     ax = comparison_plot(
         data=df,
         y="degr",

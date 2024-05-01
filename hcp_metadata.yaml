@@ -66,3 +66,6 @@ handedness:
   valid:
     - L
     - R
+ddx:
+  file: psychosocial
+  field: lifedx

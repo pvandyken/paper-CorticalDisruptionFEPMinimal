@@ -34,11 +34,11 @@ inputs = generate_inputs(
     derivatives=True,
     participant_label=config.get("participant_label"),
     exclude_participant_label=config.get("exclude_participant_label"),
-    pybids_database_dir=os.path.join(
+    pybidsdb_dir=os.path.join(
         config['bids_dir'][dataset],
         config.get("pybids_database_dir")
     ),
-    pybids_reset_database=config.get("pybids_reset_database"),
+    pybidsdb_reset=config.get("pybids_reset_database"),
 )
 
 

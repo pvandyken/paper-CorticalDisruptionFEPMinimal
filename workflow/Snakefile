@@ -11,6 +11,7 @@ include: 'rules/setup.smk'
 # include: 'rules/parcellation.smk'
 # include: 'rules/connectome.smk'
 include: 'rules/graph_theory.smk'
+include: 'rules/seg_transform.smk'
 # include: 'rules/spectral_clustering/qc.smk'
 # include: 'rules/tests.smk'
 # include: "rules/qc.smk"
@@ -26,6 +27,9 @@ localrules: qc, aggregate_profiles, merge_nodal_properties
 
 rule graph_theory:
     input: rules.merge_nodal_properties.output,
+
+rule wm_mask:
+    input: inputs["5tt"].expand(rules.resample_mask_to_dti_map.output)
 
 # rule rich_club:
 #     input:

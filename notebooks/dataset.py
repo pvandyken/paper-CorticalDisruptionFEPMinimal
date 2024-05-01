@@ -119,10 +119,15 @@ class Dataset:
         self._exclude_subj.update(subjects)
         return self
 
-    def get(self, **entities):
-        subjects = (
+    @property
+    def subjects(self):
+        return (
             set(self.metadata.index.unique("participant_id")) - self._exclude_subj
         )
+
+
+    def get(self, **entities):
+        subjects = self.subjects
 
         if (
             entities.get("subject") not in subjects
@@ -148,7 +153,8 @@ class Dataset:
         entries_ = map(
             lambda entry: atlas.create_edgelist(
                 np.genfromtxt(entry.path, delimeter=",")
-            ) | entry.get_entities(),
+            )
+            | entry.get_entities(),
             entries,
         )
         first = itx.first(entries_)
@@ -229,7 +235,11 @@ class Dataset:
         data = (
             data.set_index(list(index_cols))
             .to_xarray()
-            .drop_sel(participant_id=list(self._exclude_subj))
+            .drop_sel(
+                participant_id=list(
+                    set(data["participant_id"]) & set(self._exclude_subj)
+                )
+            )
         )
         return self.merged_metadata(Atlas.bn246).merge(data, join="inner")
 

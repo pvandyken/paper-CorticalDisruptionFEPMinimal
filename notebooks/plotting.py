@@ -48,18 +48,17 @@ class StatResults:
 
     def _format_p(self, result, adj=False, precision=2):
         arg = "p_{adj}" if adj else "p"
-        predicate = (
-            "< 0.001"
-            if result < 0.001
-            else f"= {np.format_float_positional(result, precision, fractional=False)}"
-        )
+        formatted = np.format_float_positional(
+            result, precision, fractional=False
+        ).lstrip("0")[:4]
+        predicate = "< 0.001" if result < 0.001 else f"= {formatted}"
         return f"{arg} {predicate}"
 
     def _format(self, result):
         if isinstance(result, RegressionResultsWrapper):
             return (
-                f"F({result.df_model:.0f}, {result.df_resid:.0f}) = {result.fvalue:.2f}, "
-                f"{self._format_p(result.f_pvalue)}"
+                rf"F({result.df_model:.0f},\, {result.df_resid:.0f}) = "
+                rf"{result.fvalue:.2f},\: {self._format_p(result.f_pvalue)}"
             )
 
     def _format_t(self, result):
@@ -89,6 +88,8 @@ def plot_on_atlas(
     facecolor="white",
     transparent=False,
     ax=None,
+    cmap="plasma",
+    symmetric_cmap=False,
     vmax=None,
 ):
     imgs = []
@@ -104,6 +105,8 @@ def plot_on_atlas(
                     vmax=None,
                     facecolor=facecolor,
                     transparent=transparent,
+                    symmetric_cmap=symmetric_cmap,
+                    cmap=cmap,
                 )
                 img_row.append(data)
             imgs.append(np.hstack(img_row))
@@ -123,8 +126,8 @@ def plot_on_atlas(
     plot_surf(
         str(infl),
         lookup,
-        cmap="plasma",
-        # symmetric_cmap=False,
+        cmap=cmap,
+        symmetric_cmap=symmetric_cmap,
         hemi={"L": "left", "R": "right"}[hem],
         view=view,
         # vmin=0,
@@ -150,6 +153,11 @@ def project_to_atlas(data, hem):
     return np.r_[0, data][np.maximum(lookup.data, 0)]
 
 
+def arcspace(num):
+    space = np.r_[0 : 1 : num * 1j] * 2 * np.pi
+    return np.vstack([np.cos(space), np.sin(space)]).T
+
+
 def plot_hierachical_connectome(
     arr, *, ax, atlas, ecmap=cm.plasma, vcmap=cm.tab10, emin=None, emax=None
 ):
@@ -173,6 +181,27 @@ def plot_hierachical_connectome(
         tree, root=tree.vertex(tree.num_vertices() - 1), rel_order=order
     )
 
+    ax.text(
+        0, 0.5, "L", size=15, weight="bold", color="#303030", transform=ax.transAxes
+    )
+    ax.text(
+        0.95, 0.5, "R", size=15, weight="bold", color="#303030", transform=ax.transAxes
+    )
+    if np.all(arr == 0):
+        G = gt.Graph()
+        G.add_vertex(arr.shape[0])
+        gt.graph_draw(
+            G,
+            rotate_layout(layout, -0.499 * np.pi),
+            mplfig=ax,
+            vcmap=vcmap,
+            vertex_fill_color=G.new_vertex_property("int", vals=lobes),
+            vertex_color=G.new_vertex_property("int", vals=lobes),
+            vertex_pen_width=0,
+            vertex_size=0.1,
+        )
+        return
+
     if emin is not None or emax is not None:
         emin = np.min(weights.a) if emin is None else emin
         emax = np.max(weights.a) if emax is None else emax
@@ -195,16 +224,11 @@ def plot_hierachical_connectome(
         vertex_fill_color=g.new_vertex_property("int", vals=lobes),
         vertex_color=g.new_vertex_property("int", vals=lobes),
         vertex_pen_width=0.01,
+        vertex_size=0.1,
         hide=5,
         edge_color=weights,
         edge_pen_width=0.01,
         edge_gradient=[],
-    )
-    ax.text(
-        0.02, 0.5, "L", size=15, weight="bold", color="#303030", transform=ax.transAxes
-    )
-    ax.text(
-        0.95, 0.5, "R", size=15, weight="bold", color="#303030", transform=ax.transAxes
     )
 
 
@@ -276,7 +300,7 @@ def comparison_plot(data, order, ax, y="adj", ylabel="Average FA", significance=
         palette="tab10",
     )
     ax.set_ylabel(ylabel)
-    ax.set_xlabel("Phenotype")
+    ax.set_xlabel("Phenotype", size=10)
     if isinstance(significance, TukeyHSDResults):
         significance = {
             pair: significance.pvalues[i]
